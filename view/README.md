@@ -1,5 +1,5 @@
 
-### Machine Learning: An Algorithmic Perspective 的读书笔记
+### Machine Learning: An Probabilistic Perspective 的读书笔记
 
 [阅读目录](https://github.com/kamael/clapp/tree/master/view)
 
