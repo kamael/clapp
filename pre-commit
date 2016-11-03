@@ -35,7 +35,7 @@ for root, dirs, files in os.walk('.'):
             with open(filename, "r") as f:
                 text = f.read().decode("utf-8")
                 with open(os.path.join(viewDir, filename), "w+") as vf:
-                    postText = re.sub(r"(\$\$([\x00-\xff]+)\$\$)", singleTeX2Image, text)
-                    postText = re.sub(r"(\$([\x00-\xff]+)\$)", inlineTeX2Image, postText)
+                    postText = re.sub(r"(\$\$([\x00-\xff]+?)\$\$)", singleTeX2Image, text)
+                    postText = re.sub(r"(\$([\x00-\xff]+?)\$)", inlineTeX2Image, postText)
                     vf.write(postText.encode("utf-8"))
 
