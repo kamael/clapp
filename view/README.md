@@ -1,7 +1,7 @@
 
 ### Machine Learning: An Probabilistic Perspective 的读书笔记
 
-[阅读目录](https://github.com/kamael/clapp/tree/master/view)
+[阅读目录](https://github.com/kamael/mlapp/tree/master/view)
 
 
 备注：
