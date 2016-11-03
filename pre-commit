@@ -31,7 +31,7 @@ os.mkdir(viewDir)
 for root, dirs, files in os.walk('.'):
     for filename in files:
         ext = os.path.splitext(filename)[1]
-        if ext == ".md":
+        if ext == ".md" and not filename.startswith(viewDir):
             with open(filename, "r") as f:
                 text = f.read().decode("utf-8")
                 with open(os.path.join(viewDir, filename), "w+") as vf:
