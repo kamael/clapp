@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import requests
+import sys, os, re
+from urllib import quote
+
+#通过本地生成 data: 图片
+#def getImage(tex):
+     #pass
+
+# 通过在线图片
+def getImage(tex):
+    return "http://latex.codecogs.com/gif.latex?" + quote(tex)
+
+def singleTeX2Image(m):
+    tex = m.group().strip("$")
+    print tex
+    return "![%s](%s)" % (tex.replace("[", "\[").replace("]", "\]"), getImage(tex))
+
+def inlineTeX2Image(m):
+    tex = m.group().strip("$")
+    print tex
+    return "![%s](%s)" % (tex.replace("[", "\[").replace("]", "\]"), getImage(tex))
+
+for root, dirs, files in os.walk('.'):
+    for filename in files:
+        ext = os.path.splitext(filename)[1]
+        if ext == ".md":
+            with open(filename, "r+") as f:
+                text = f.read()
+                f.seek(0)
+                postText = re.sub(r"(\$\$([\x00-\xff]+)\$\$)", singleTeX2Image, text.decode("utf-8"))
+                postText = re.sub(r"(\$([\x00-\xff]+)\$)", inlineTeX2Image, postText)
+                f.write(postText.encode("utf-8"))
+
