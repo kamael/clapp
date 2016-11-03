@@ -4,6 +4,7 @@
 import requests
 import sys, os, re
 from urllib import quote
+import shutil
 
 #通过本地生成 data: 图片
 #def getImage(tex):
@@ -15,22 +16,26 @@ def getImage(tex):
 
 def singleTeX2Image(m):
     tex = m.group().strip("$")
-    print tex
     return "![%s](%s)" % (tex.replace("[", "\[").replace("]", "\]"), getImage(tex))
 
 def inlineTeX2Image(m):
     tex = m.group().strip("$")
-    print tex
     return "![%s](%s)" % (tex.replace("[", "\[").replace("]", "\]"), getImage(tex))
+
+viewDir = "view"
+
+if os.path.isdir(viewDir):
+    shutil.rmtree(viewDir)
+os.mkdir(viewDir)
 
 for root, dirs, files in os.walk('.'):
     for filename in files:
         ext = os.path.splitext(filename)[1]
         if ext == ".md":
-            with open(filename, "r+") as f:
-                text = f.read()
-                f.seek(0)
-                postText = re.sub(r"(\$\$([\x00-\xff]+)\$\$)", singleTeX2Image, text.decode("utf-8"))
-                postText = re.sub(r"(\$([\x00-\xff]+)\$)", inlineTeX2Image, postText)
-                f.write(postText.encode("utf-8"))
+            with open(filename, "r") as f:
+                text = f.read().decode("utf-8")
+                with open(os.path.join(viewDir, filename), "w+") as vf:
+                    postText = re.sub(r"(\$\$([\x00-\xff]+)\$\$)", singleTeX2Image, text)
+                    postText = re.sub(r"(\$([\x00-\xff]+)\$)", inlineTeX2Image, postText)
+                    vf.write(postText.encode("utf-8"))
 
